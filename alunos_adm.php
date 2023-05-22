@@ -1,0 +1,189 @@
+<?php
+	include('banco/conexao.php');
+	session_start();
+	if((!isset ($_SESSION['cdUsuario']) == true) and (!isset ($_SESSION['idNivel']) == true)){
+		header('Location: index.php');
+	}
+	if($_SESSION['idNivel'] == 1){
+		header('Location: home_aluno.php');
+	}
+	if($_SESSION['idNivel'] == 2){
+		header('Location: home_empresa.php');
+	}
+	
+
+	$cdUsuario = $_SESSION['cdUsuario'];
+	$idNivel = $_SESSION['idNivel'];
+
+	$sql = "SELECT * FROM tb_usuario WHERE cd_usuario = '$cdUsuario'";
+	$query = mysqli_query($mysqli, $sql);
+	$dados = mysqli_fetch_object($query);
+
+	$img_caminho = $dados->path_foto_usuario;
+
+	$sql_alunos = "SELECT * FROM tb_usuario WHERE id_nivel = 1";
+	$query_alunos = mysqli_query($mysqli, $sql_alunos);
+	$num_alunos = mysqli_num_rows($query_alunos);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!--
+		adiciona foto no site 
+		<link rel="icon" href="dados/img/ft_usuarios/user.jpg"> 
+	-->
+	<title>Alunos</title>
+	<!-- Javascript --><script src="css/local/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap --><link href="css/local/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Fontawesome --><link href="css/local/fontawesome/css/fontawesome.css" rel="stylesheet">
+	<!-- Fontawesome --><link href="css/local/fontawesome/css/solid.css" rel="stylesheet">
+	<!-- Jquery --><script src="css/local/js/jquery-3.6.1.min.js"></script>
+    <!-- Jquery Mask <script src="css/local/js/jquery.mask.min.js"></script> -->
+	<!-- CSS --><link rel="stylesheet" href="css/navbar.css">
+	<!-- CSS --><link rel="stylesheet" href="css/geral.css">
+	<!-- CSS --><link rel="stylesheet" href="css/footer.css">
+	<script>
+		$(document).ready(function(){
+			$("#resultado").hide();
+			$("#modal-deletar-usuario-adm").fadeOut();
+
+			$("#btn-pesquisa").click(function(){
+				$.ajax({
+					url: "config/pesquisa-usuario.php",
+				    type: "POST",
+				    data: "text-pesquisa="+$("#text-pesquisa").val() + "&select-pesquisa="+$("#select-pesquisa").val(),
+				    dataType: "html"
+				}).done(function(resposta) {
+				    $("#resultado-pesquisa").html(resposta);
+				}).fail(function(jqXHR, textStatus ) {
+				    console.log("Request failed: " + textStatus);
+				}).always(function() {
+				    console.log("completou");
+				});
+			});
+
+			$(".btn-denuncias-usuario").click(function(){
+				$id_usuario = $(this).attr('id');
+
+				window.location.href = "denuncias_usuario.php?see="+$id_usuario;
+			})
+
+			$(".btn-visualizar-usuario").click(function(){
+				$id_usuario = $(this).attr('id');
+
+				window.location.href = "perfil.php?see="+$id_usuario;
+			})
+
+			$(".btn-deletar-usuario").click(function(){
+				$id_usuario = $(this).attr('id');
+
+				$.ajax({
+					url: "config/modal-deletar-usuario-adm.php",
+					type: "POST",
+					data: "idUsuario="+$id_usuario + "&nivelUsuario="+"1",
+					dataType: "html"
+				}).done(function(resposta){
+					$("#modal-deletar-usuario-adm").html(resposta);
+					$("#modal-deletar-usuario-adm").fadeIn();
+				}).fail(function(jqXHR, textStatus ){
+					console.log("Request failed: " + textStatus);
+					$("#modal-deletar-usuario-adm").fadeOut();
+				}).always(function(){
+					console.log("completou");
+				});
+			})
+		});
+	</script>
+</head>
+<body>
+	<!-- Navbar (topo) -->
+	<nav class="navbar" id="nav-topo">
+		<div class="container-fluid" id="div-topo">
+			<a class="navbar-brand" href="home_adm.php" id="a-topo">
+				STAR TEC
+			</a>
+			<ul class="nav justify-content-end" id="ul-topo">
+				<li class="nav-item" id="li-topo">
+					<a class="nav-link" title="Meu perfil" id="li-a" style="padding-right: 0; padding-left: 0;">
+						<img src="<?php echo $img_caminho; ?>" id="li-img" class="rounded-circle" style="margin: 0; width: 40px; height: 40px;">
+					</a>
+				</li>
+				<li class="nav-item" id="li-topo">
+					<a class="nav-link" href="config/finaliza-sessao.php" id="a-sair" style="margin-left: 35px; margin-bottom: 0; margin-top: 15px;">Sair</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<!-- Navbar (navega) -->
+	<nav class="nav nav-pills nav-justified" id="nav-navega">
+  		<a class="nav-link p-3" id="a-navega-a" href="alunos_adm.php">Alunos</a>
+  		<a class="nav-link p-3" id="a-navega-b" href="empresa_adm.php">Empresas</a>
+  		<a class="nav-link p-3" id="a-navega-c" href="projetos_adm.php">Projetos</a>
+  		<a class="nav-link p-3" id="a-navega-d" href="vagas_adm.php">Vagas</a>
+  		<a class="nav-link p-3" id="a-navega-f" href="curriculos_adm.php">Currículos</a>
+	</nav>
+
+	<!-- Título (barra) -->
+	<div id="titulo">
+		<label class="h5" id="titulo-label">ALUNOS</label>
+		<button id="titulo-btn"><i style="font-size: 22px;" class="fa-solid fa-mug-hot"></i></button>
+	</div>
+
+	<!-- Barra de pesquisa (pesquisa) -->
+	<div class="input-group mb-3" id="div-pesquisa">
+		<select class="form-select form-select-sm p-3" id="select-pesquisa">
+			<option value="1" selected title="Filtrar busca">Aluno</option>
+		</select>
+		<input type="text" class="form-control" placeholder="Pesquise algo..." id="text-pesquisa">
+  		<button class="btn" type="button" id="btn-pesquisa"><i class="fa-solid fa-magnifying-glass" id="i-pesquisa"></i></button>
+	</div>
+
+	<!-- Resultado (resultado-pesquisa) -->
+	<div class="alert" id="resultado" role="alert">
+		<span id="resultado-pesquisa"></span>
+	</div>
+	
+	<div id="lista-de-usuarios" style="width: 80%; margin-top: 5%; margin-left: 10%; margin-right: 10%; border-radius: 8px;">
+		<?php
+			if($num_alunos > 0){
+				while($row_aluno = mysqli_fetch_assoc($query_alunos)){
+					?>
+						<div style="width: 100%; display: flex; margin-bottom: 0.5%;">
+							<div style="width: 60%; text-align: center; display: flex;">
+								<div title="ID aluno" style="width: 10%; padding-top: 2%; background-color: white; padding-bottom: 2%; border: 1px solid; border-top-left-radius: 4px; border-bottom-left-radius: 4px;">
+									<?php echo $row_aluno['cd_usuario']; ?>
+								</div>
+								<div title="Nome de usuário" style="width: 90%; background-color: white; padding-top: 2%; padding-bottom: 2%; border: 1px solid; border-left: 0;">
+									<?php echo $row_aluno['nm_usuario']; ?>
+								</div>
+							</div>
+							<div style="width: 40%; text-align: center; display: flex;">
+								<div class="btn-denuncias-usuario btn btn-light" id="<?php echo $row_aluno['ds_url_usuario']; ?>" title="Denuncias" style="border-radius: 0; width: 30%; padding-top: 2.5%; padding-bottom: 2%; border: 1px solid; border-left: 0;">
+									Denuncias
+								</div>
+								<div class="btn-visualizar-usuario btn btn-light" id="<?php echo $row_aluno['ds_url_usuario']; ?>" title="Visualizar" style="border-radius: 0; width: 40%; padding-top: 2.5%; padding-bottom: 2%; border: 1px solid; border-left: 0;">
+									Visualizar
+								</div>
+								<div class="btn-deletar-usuario btn btn-light" id="<?php echo $row_aluno['ds_url_usuario']; ?>" title="Deletar" style="border-radius: 0; width: 30%; padding-top: 2.5%; padding-bottom: 2%; border: 1px solid; border-left: 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+									Deletar
+								</div>
+							</div>
+						</div>
+					<?php
+				}
+			}else{
+				?>
+					<div id="div-projeto" style="width: 100%; margin: 0;">
+						<label class='h6'>Nenhum usuário foi encontrado!</label>
+					</div>
+				<?php
+			}
+		?>
+	</div>
+
+	<div class="modal" tabindex="-1" id="modal-deletar-usuario-adm"></div>
+	<div class="modal" tabindex="-1" id="modal"></div>
+</body>
+</html>
