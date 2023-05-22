@@ -1,0 +1,524 @@
+CREATE DATABASE db_startec;
+
+--
+
+CREATE TABLE tb_usuario(
+	cd_usuario INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_foto_usuario VARCHAR(200) NULL, 
+	path_foto_usuario VARCHAR(200) NULL,
+	nm_usuario VARCHAR(100) NULL,
+	nm_completo VARCHAR(100) NULL,
+	ds_email VARCHAR(200) NOT NULL,
+	ds_senha VARCHAR(30) NOT NULL,
+	ds_cnpj VARCHAR(18) NULL,
+	nm_github VARCHAR(100) NULL,
+	ds_github_url VARCHAR(200) NULL,
+	ds_descricao VARCHAR(400) NULL,
+	ds_url_usuario VARCHAR(200),
+	id_genero INTEGER NULL, 
+	id_etec INTEGER NULL,
+	id_escolaridade INTEGER NULL,
+	id_nivel INTEGER NOT NULL, 
+	created_usuario DATETIME NOT NULL
+);
+
+CREATE TABLE tb_denuncia_usuario(
+	cd_denuncia_usuario INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_denuncia_usuario VARCHAR(400) NULL,
+	id_pchave_denuncia_usuario INTEGER NOT NULL,
+	id_autor_denuncia_usuario INTEGER NOT NULL,
+	id_denuncia_usuario INTEGER NOT NULL,
+	created_denuncia_usuario DATETIME NOT NULL
+);
+
+CREATE TABLE tb_genero(
+	cd_genero INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_genero VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE tb_etec(
+	cd_etec INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_etec VARCHAR(100) NOT NULL,
+	ds_etec VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE tb_escolaridade(
+	cd_escolaridade INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_escolaridade VARCHAR(100) NOT NULL,
+	ds_escolaridade VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE tb_nivel(
+	cd_nivel INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_nivel VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE tb_estado_civil(
+	cd_estado_civil INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_estado_civil VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE tb_municipio(
+	cd_municipio INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_municipio VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE tb_pchave_denuncia(
+	cd_pchave_denuncia INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_pchave_denuncia VARCHAR(100) NOT NULL,
+	ds_pchave_denuncia VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE tb_projeto(
+	cd_projeto INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_projeto VARCHAR(100) NOT NULL,
+	ds_projeto VARCHAR(2000) NULL,
+	ds_site VARCHAR(200) NULL,
+	ds_github VARCHAR(200) NULL,
+	ds_url_projeto VARCHAR(200),
+	id_autor_projeto INTEGER NOT NULL,
+	id_pchave_projeto INTEGER NOT NULL,
+	arquivos INTEGER NULL,
+	created_projeto DATETIME NOT NULL
+); 
+
+CREATE TABLE tb_pchave_projeto(
+	cd_pchave_projeto INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_pchave_projeto VARCHAR(100) NOT NULL,
+	ds_pchave_projeto VARCHAR(300) NOT NULL
+); 
+
+CREATE TABLE tb_arquivo(
+	cd_arquivo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_arquivo VARCHAR(300) NOT NULL,
+	ds_caminho VARCHAR(300) NOT NULL,
+	extensao VARCHAR(6) NOT NULL,
+	id_autor_arquivo INTEGER NOT NULL,
+	id_projeto_arquivo INTEGER NOT NULL,
+	created_arquivo DATETIME NOT NULL
+);
+
+CREATE TABLE tb_curtida_projeto(
+	cd_curtida_projeto INTEGER PRIMARY KEY AUTO_INCREMENT,
+	id_autor_curtida_projeto INTEGER NOT NULL,
+	id_curtida_projeto INTEGER NOT NULL,
+	id_autor_projeto_curtido INTEGER NOT NULL,
+	created_curtida_projeto DATETIME NOT NULL
+);
+
+ALTER TABLE tb_curtida_projeto
+ADD CONSTRAINT fk_autor_projeto_curtido
+FOREIGN KEY (id_autor_projeto_curtido) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_comentario_projeto(
+	cd_comentario_projeto INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_comentario_projeto VARCHAR(400) NOT NULL,
+	id_autor_comentario_projeto INTEGER NOT NULL,
+	id_comentario_projeto INTEGER NOT NULL,
+	id_autor_projeto_comentado INTEGER NOT NULL,
+	created_comentario_projeto DATETIME NOT NULL
+);
+
+ALTER TABLE tb_comentario_projeto
+ADD CONSTRAINT fk_autor_projeto_comentado
+FOREIGN KEY (id_autor_projeto_comentado) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_denuncia_projeto(
+	cd_denuncia_projeto INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_denuncia_projeto VARCHAR(400) NULL,
+	id_pchave_denuncia_projeto INTEGER NOT NULL,
+	id_autor_denuncia_projeto INTEGER NOT NULL,
+	id_denuncia_projeto INTEGER NOT NULL,
+	id_autor_projeto_denunciado INTEGER NOT NULL,
+	created_denuncia_projeto DATETIME NOT NULL
+);
+
+ALTER TABLE tb_denuncia_projeto
+ADD CONSTRAINT fk_autor_projeto_denunciado
+FOREIGN KEY (id_autor_projeto_denunciado) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_vaga(
+	cd_vaga INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_vaga VARCHAR(100) NOT NULL,
+	ds_localizacao VARCHAR(300) NOT NULL,
+	id_pchave_vaga INTEGER NOT NULL,
+	ds_contato_email VARCHAR(200) NOT NULL,
+	ds_contato_telefone VARCHAR(15) NULL,
+	ds_vaga VARCHAR(2000) NOT NULL,
+	ds_url_vaga VARCHAR(200),
+	id_autor_vaga INTEGER NOT NULL,
+	id_pchave_curriculo INTEGER NOT NULL,
+	created_vaga DATETIME NOT NULL
+);
+
+CREATE TABLE tb_pchave_vaga(
+	cd_pchave_vaga INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	nm_pchave_vaga VARCHAR(100) NOT NULL,
+	ds_pchave_vaga VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE tb_curtida_vaga(
+	cd_curtida_vaga INTEGER PRIMARY KEY AUTO_INCREMENT,
+	id_autor_curtida_vaga INTEGER NOT NULL,
+	id_curtida_vaga INTEGER NOT NULL,
+	id_autor_vaga_curtida INTEGER NOT NULL,
+	created_curtida_vaga DATETIME NOT NULL
+);
+
+ALTER TABLE tb_curtida_vaga
+ADD CONSTRAINT fk_autor_vaga_curtida
+FOREIGN KEY (id_autor_vaga_curtida) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_comentario_vaga(
+	cd_comentario_vaga INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_comentario_vaga VARCHAR(400) NOT NULL,
+	id_autor_comentario_vaga INTEGER NOT NULL,
+	id_comentario_vaga INTEGER NOT NULL,
+	id_autor_vaga_comentada INTEGER NOT NULL,
+	created_comentario_vaga DATETIME NOT NULL
+); 
+
+ALTER TABLE tb_comentario_vaga
+ADD CONSTRAINT fk_autor_vaga_comentada
+FOREIGN KEY (id_autor_vaga_comentada) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_denuncia_vaga(
+	cd_denuncia_vaga INTEGER PRIMARY KEY AUTO_INCREMENT, 
+	ds_denuncia_vaga VARCHAR(400) NULL,
+	id_pchave_denuncia_vaga INTEGER NOT NULL,
+	id_autor_denuncia_vaga INTEGER NOT NULL,
+	id_denuncia_vaga INTEGER NOT NULL,
+	id_autor_vaga_denunciada INTEGER NOT NULL,
+	created_denuncia_vaga DATETIME NOT NULL
+);
+
+ALTER TABLE tb_denuncia_vaga
+ADD CONSTRAINT fk_autor_vaga_denunciada
+FOREIGN KEY (id_autor_vaga_denunciada) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_candidato(
+	cd_candidato INTEGER PRIMARY KEY AUTO_INCREMENT,
+	id_candidato INTEGER NOT NULL,
+	id_vaga INTEGER NOT NULL,
+	id_autor_vaga_candidato INTEGER NOT NULL,
+	created_candidato DATETIME NOT NULL
+);
+
+CREATE TABLE tb_curriculo(
+	cd_curriculo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_foto_curriculo VARCHAR(200) NULL, 
+	path_foto_curriculo VARCHAR(200) NULL,
+	nm_completo_curriculo VARCHAR(100) NOT NULL,
+	ds_contato_email VARCHAR(300) NOT NULL,
+	ds_cargo VARCHAR(300) NOT NULL,
+	ds_nascimento DATE NOT NULL,
+	ds_contato_telefone VARCHAR(15) NULL,
+	ds_idioma VARCHAR(300) NULL,
+	ds_qualidade VARCHAR(500) NULL,
+	ds_curso VARCHAR(2000) NULL,
+	ds_url_curriculo VARCHAR(200),
+	id_autor_curriculo INTEGER NOT NULL,
+	id_estado_civil INTEGER NOT NULL,
+	id_municipio INTEGER NOT NULL,
+	ds_cep VARCHAR(9) NOT NULL,
+	id_etec_curriculo INTEGER NOT NULL,
+	id_pchave_curriculo INTEGER NOT NULL,
+	id_genero_curriculo INTEGER NOT NULL,
+	created_curriculo DATETIME NOT NULL
+);
+
+CREATE TABLE tb_pchave_curriculo(
+	cd_pchave_curriculo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nm_pchave_curriculo VARCHAR(100) NOT NULL,
+	ds_pchave_curriculo VARCHAR(300) NOT NULL
+);
+
+CREATE TABLE tb_curtida_curriculo(
+	cd_curtida_curriculo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	id_autor_curtida_curriculo INTEGER NOT NULL,
+	id_curtida_curriculo INTEGER NOT NULL,
+	id_autor_curriculo_curtido INTEGER NOT NULL,
+	created_curtida_curriculo DATETIME NOT NULL
+);
+
+ALTER TABLE tb_curtida_curriculo
+ADD CONSTRAINT fk_autor_curriculo_curtida
+FOREIGN KEY (id_autor_curriculo_curtido) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_comentario_curriculo(
+	cd_comentario_curriculo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_comentario_curriculo VARCHAR(400) NOT NULL,
+	id_autor_comentario_curriculo INTEGER NOT NULL,
+	id_comentario_curriculo INTEGER NOT NULL,
+	id_autor_curriculo_comentado INTEGER NOT NULL,
+	created_comentario_curriculo DATETIME NOT NULL
+);
+
+ALTER TABLE tb_comentario_curriculo
+ADD CONSTRAINT fk_autor_curriculo_comentado
+FOREIGN KEY (id_autor_curriculo_comentado) REFERENCES tb_usuario (cd_usuario);
+
+CREATE TABLE tb_denuncia_curriculo(
+	cd_denuncia_curriculo INTEGER PRIMARY KEY AUTO_INCREMENT,
+	ds_denuncia_curriculo VARCHAR(400) NULL,
+	id_pchave_denuncia_curriculo INTEGER NOT NULL,
+	id_autor_denuncia_curriculo INTEGER NOT NULL,
+	id_denuncia_curriculo INTEGER NOT NULL,
+	id_autor_curriculo_denunciado INTEGER NOT NULL,
+	created_denuncia_curriculo DATETIME NOT NULL
+);
+
+ALTER TABLE tb_denuncia_curriculo
+ADD CONSTRAINT fk_autor_curriculo_denunciado
+FOREIGN KEY (id_autor_curriculo_denunciado) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_usuario
+ADD CONSTRAINT fk_genero_usuario
+FOREIGN KEY (id_genero) REFERENCES tb_genero (cd_genero);
+
+ALTER TABLE tb_usuario
+ADD CONSTRAINT fk_etec_usuario
+FOREIGN KEY (id_etec) REFERENCES tb_etec (cd_etec);
+
+ALTER TABLE tb_usuario
+ADD CONSTRAINT fk_escolaridade_usuario
+FOREIGN KEY (id_escolaridade) REFERENCES tb_escolaridade (cd_escolaridade);
+
+ALTER TABLE tb_usuario
+ADD CONSTRAINT fk_nivel_usuario
+FOREIGN KEY (id_nivel) REFERENCES tb_nivel (cd_nivel);
+
+ALTER TABLE tb_denuncia_usuario
+ADD CONSTRAINT fk_pchave_denuncia_usuario
+FOREIGN KEY (id_pchave_denuncia_usuario) REFERENCES tb_pchave_denuncia (cd_pchave_denuncia);
+
+ALTER TABLE tb_denuncia_usuario
+ADD CONSTRAINT fk_autor_denuncia_usuario
+FOREIGN KEY (id_autor_denuncia_usuario) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_denuncia_usuario
+ADD CONSTRAINT fk_denuncia_usuario
+FOREIGN KEY (id_denuncia_usuario) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_projeto
+ADD CONSTRAINT fk_autor_projeto
+FOREIGN KEY (id_autor_projeto) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_arquivo
+ADD CONSTRAINT fk_autor_arquivo
+FOREIGN KEY (id_autor_arquivo) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_arquivo
+ADD CONSTRAINT fk_projeto_arquivo
+FOREIGN KEY (id_projeto_arquivo) REFERENCES tb_projeto (cd_projeto);
+
+ALTER TABLE tb_projeto
+ADD CONSTRAINT fk_pchave_projeto
+FOREIGN KEY (id_pchave_projeto) REFERENCES tb_pchave_projeto (cd_pchave_projeto);
+
+ALTER TABLE tb_curtida_projeto
+ADD CONSTRAINT fk_autor_curtida_projeto
+FOREIGN KEY (id_autor_curtida_projeto) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_curtida_projeto
+ADD CONSTRAINT fk_curtida_projeto
+FOREIGN KEY (id_curtida_projeto) REFERENCES tb_projeto (cd_projeto);
+
+ALTER TABLE tb_comentario_projeto
+ADD CONSTRAINT fk_autor_comentario_projeto
+FOREIGN KEY (id_autor_comentario_projeto) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_comentario_projeto
+ADD CONSTRAINT fk_comentario_projeto
+FOREIGN KEY (id_comentario_projeto) REFERENCES tb_projeto (cd_projeto);
+
+ALTER TABLE tb_denuncia_projeto
+ADD CONSTRAINT fk_pchave_denuncia_projeto
+FOREIGN KEY (id_pchave_denuncia_projeto) REFERENCES tb_pchave_denuncia (cd_pchave_denuncia);
+
+ALTER TABLE tb_denuncia_projeto
+ADD CONSTRAINT fk_autor_denuncia_projeto
+FOREIGN KEY (id_autor_denuncia_projeto) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_denuncia_projeto
+ADD CONSTRAINT fk_denuncia_projeto
+FOREIGN KEY (id_denuncia_projeto) REFERENCES tb_projeto (cd_projeto);
+
+ALTER TABLE tb_vaga
+ADD CONSTRAINT fk_autor_vaga
+FOREIGN KEY (id_autor_vaga) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_vaga
+ADD CONSTRAINT fk_pchave_periodo
+FOREIGN KEY (id_pchave_vaga) REFERENCES tb_pchave_vaga (cd_pchave_vaga);
+
+ALTER TABLE tb_vaga
+ADD CONSTRAINT fk_pchave_requisito
+FOREIGN KEY (id_pchave_curriculo) REFERENCES tb_pchave_curriculo (cd_pchave_curriculo);
+
+ALTER TABLE tb_curtida_vaga
+ADD CONSTRAINT fk_autor_curtida_vaga
+FOREIGN KEY (id_autor_curtida_vaga) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_curtida_vaga
+ADD CONSTRAINT fk_curtida_vaga
+FOREIGN KEY (id_curtida_vaga) REFERENCES tb_vaga (cd_vaga);
+
+ALTER TABLE tb_comentario_vaga
+ADD CONSTRAINT fk_autor_comentario_vaga
+FOREIGN KEY (id_autor_comentario_vaga) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_comentario_vaga
+ADD CONSTRAINT fk_comentario_vaga
+FOREIGN KEY (id_comentario_vaga) REFERENCES tb_vaga (cd_vaga);
+
+ALTER TABLE tb_denuncia_vaga
+ADD CONSTRAINT fk_pchave_denuncia_vaga
+FOREIGN KEY (id_pchave_denuncia_vaga) REFERENCES tb_pchave_denuncia (cd_pchave_denuncia);
+
+ALTER TABLE tb_denuncia_vaga
+ADD CONSTRAINT fk_autor_denuncia_vaga
+FOREIGN KEY (id_autor_denuncia_vaga) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_denuncia_vaga
+ADD CONSTRAINT fk_denuncia_vaga
+FOREIGN KEY (id_denuncia_vaga) REFERENCES tb_vaga (cd_vaga);
+
+ALTER TABLE tb_candidato
+ADD CONSTRAINT fk_candidato
+FOREIGN KEY (id_candidato) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_candidato
+ADD CONSTRAINT fk_candidato_vaga
+FOREIGN KEY (id_vaga) REFERENCES tb_vaga (cd_vaga);
+
+ALTER TABLE tb_candidato
+ADD CONSTRAINT fk_autor_vaga_usuario
+FOREIGN KEY (id_autor_vaga_candidato) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_autor_curriculo
+FOREIGN KEY (id_autor_curriculo) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_estado_civil_curriculo
+FOREIGN KEY (id_estado_civil) REFERENCES tb_estado_civil (cd_estado_civil);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_municipio_curriculo
+FOREIGN KEY (id_municipio) REFERENCES tb_municipio (cd_municipio);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_etec_curriculo
+FOREIGN KEY (id_etec_curriculo) REFERENCES tb_etec (cd_etec);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_pchave_curriculo
+FOREIGN KEY (id_pchave_curriculo) REFERENCES tb_pchave_curriculo (cd_pchave_curriculo);
+
+ALTER TABLE tb_curriculo
+ADD CONSTRAINT fk_genero_curriculo
+FOREIGN KEY (id_genero_curriculo) REFERENCES tb_genero (cd_genero);
+
+ALTER TABLE tb_curtida_curriculo
+ADD CONSTRAINT fk_autor_curtida_curriculo
+FOREIGN KEY (id_autor_curtida_curriculo) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_curtida_curriculo
+ADD CONSTRAINT fk_curtida_curriculo
+FOREIGN KEY (id_curtida_curriculo) REFERENCES tb_curriculo (cd_curriculo);
+
+ALTER TABLE tb_comentario_curriculo
+ADD CONSTRAINT fk_autor_comentario_curriculo
+FOREIGN KEY (id_autor_comentario_curriculo) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_comentario_curriculo
+ADD CONSTRAINT fk_comentario_curriculo
+FOREIGN KEY (id_comentario_curriculo) REFERENCES tb_curriculo (cd_curriculo);
+
+ALTER TABLE tb_denuncia_curriculo
+ADD CONSTRAINT fk_pchave_denuncia_curriculo
+FOREIGN KEY (id_pchave_denuncia_curriculo) REFERENCES tb_pchave_denuncia (cd_pchave_denuncia);
+
+ALTER TABLE tb_denuncia_curriculo
+ADD CONSTRAINT fk_autor_denuncia_curriculo
+FOREIGN KEY (id_autor_denuncia_curriculo) REFERENCES tb_usuario (cd_usuario);
+
+ALTER TABLE tb_denuncia_curriculo
+ADD CONSTRAINT fk_denuncia_curriculo
+FOREIGN KEY (id_denuncia_curriculo) REFERENCES tb_curriculo (cd_curriculo);
+
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'Ajax', 'Este usuário possui parcial, ou total, domínio em Ajax');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'C#', 'Este usuário possui parcial, ou total, domínio em C#');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'C++', 'Este usuário possui parcial, ou total, domínio em C++');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'CSS', 'Este usuário possui parcial, ou total, domínio em CSS');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'Java', 'Este usuário possui parcial, ou total, domínio em Java');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'JavaScript', 'Este usuário possui parcial, ou total, domínio em JavaScript');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'jQuery', 'Este usuário possui parcial, ou total, domínio em jQuery');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'SQL', 'Este usuário possui parcial, ou total, domínio em SQL');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'PHP', 'Este usuário possui parcial, ou total, domínio em PHP');
+INSERT INTO `tb_pchave_curriculo`(`cd_pchave_curriculo`, `nm_pchave_curriculo`, `ds_pchave_curriculo`) VALUES (null, 'Python', 'Este usuário possui parcial, ou total, domínio em Python');
+
+INSERT INTO `tb_pchave_vaga`(`cd_pchave_vaga`, `nm_pchave_vaga`, `ds_pchave_vaga`) VALUES (null, 'Diurno', 'Carga horária diurna');
+INSERT INTO `tb_pchave_vaga`(`cd_pchave_vaga`, `nm_pchave_vaga`, `ds_pchave_vaga`) VALUES (null, 'Vespertino', 'Carga horária vespertina');
+INSERT INTO `tb_pchave_vaga`(`cd_pchave_vaga`, `nm_pchave_vaga`, `ds_pchave_vaga`) VALUES (null, 'Noturno', 'Carga horária noturna');
+INSERT INTO `tb_pchave_vaga`(`cd_pchave_vaga`, `nm_pchave_vaga`, `ds_pchave_vaga`) VALUES (null, 'Meio período', 'Carga horária de meio período');
+
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'Ajax', 'Este projeto foi criado e desenvolvido baseado em Ajax');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'C#', 'Este projeto foi criado e desenvolvido baseado em C#');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'C++', 'Este projeto foi criado e desenvolvido baseado em C++');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'CSS', 'Este projeto foi criado e desenvolvido baseado em CSS');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'Java', 'Este projeto foi criado e desenvolvido baseado em Java');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'JavaScript', 'Este projeto foi criado e desenvolvido baseado em JavaScript');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'jQuery', 'Este projeto foi criado e desenvolvido baseado em jQuery');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'SQL', 'Este projeto foi criado e desenvolvido baseado em SQL');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'PHP', 'Este projeto foi criado e desenvolvido baseado em PHP');
+INSERT INTO `tb_pchave_projeto`(`cd_pchave_projeto`, `nm_pchave_projeto`, `ds_pchave_projeto`) VALUES (null, 'Python', 'Este projeto foi criado e desenvolvido baseado em Python');
+
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Nome/título inadequado', 'Este nome/título inflinge as diretrizes da comunidade');
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Plágio', 'Este perfil, ou postagem, se trata de uma cópia (parcial, integral ou conceitual) de uma obra');
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Conteúdo inadequado', 'Este perfil, ou postagem, inflinge as diretrizes da comunidade');
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Spam', 'Este perfil, ou postagem, se trata de uma quantidade excessiva de uma única informação publicação');
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Informação falsa', 'Este perfil, ou postagem, possui dados inválidos/incorretos');
+INSERT INTO `tb_pchave_denuncia`(`cd_pchave_denuncia`, `nm_pchave_denuncia`, `ds_pchave_denuncia`) VALUES (null, 'Discurso ofensivo', 'Este perfil, ou postagem, possui informações que ferem nossas diretrizes');
+
+INSERT INTO `tb_nivel`(`cd_nivel`, `nm_nivel`) VALUES (null, 'Aluno');
+INSERT INTO `tb_nivel`(`cd_nivel`, `nm_nivel`) VALUES (null, 'Empresa');
+INSERT INTO `tb_nivel`(`cd_nivel`, `nm_nivel`) VALUES (null, 'Administrador');
+
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Cubatão');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Guarujá');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Itanhaém');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Mongaguá');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Peruíbe');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Praia Grande');
+INSERT INTO `tb_municipio`(`cd_municipio`, `nm_municipio`) VALUES (null, 'Santos');
+
+INSERT INTO `tb_genero`(`cd_genero`, `nm_genero`) VALUES (null, 'Masculino');
+INSERT INTO `tb_genero`(`cd_genero`, `nm_genero`) VALUES (null, 'Feminino');
+INSERT INTO `tb_genero`(`cd_genero`, `nm_genero`) VALUES (null, 'Outro');
+INSERT INTO `tb_genero`(`cd_genero`, `nm_genero`) VALUES (null, 'Prefiro não dizer');
+INSERT INTO `tb_genero`(`cd_genero`, `nm_genero`) VALUES (null, 'Não declarado');
+
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Cursando 1º ano do ETIM', 'Cursando 1º ano do ETIM');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Cursando 2º ano do ETIM', 'Cursando 2º ano do ETIM');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Cursando 3º ano do ETIM', 'Cursando 3º ano do ETIM');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Cursando apenas o modular', 'Cursando apenas o curso');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'ETIM concluído', 'Já concluiu o ETIM');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Modular concluído', 'Já concluiu o curso');
+INSERT INTO `tb_escolaridade`(`cd_escolaridade`, `nm_escolaridade`, `ds_escolaridade`) VALUES (null, 'Não declarado', 'Não declarado');
+
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC de Itanhaém', 'Uma ETEC da baixada santista');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC de Peruíbe', 'Uma ETEC da baixada santista');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC Adolpho Berezin', 'ETEC de Mongaguá');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC de Praia Grande', 'Uma ETEC da baixada santista');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC de Praia Grande - Extensão Balneária Maracanã', 'Uma ETEC da baixada santista');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC Alberto Santos Dumont', 'ETEC de Guarujá');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC Aristóteles Ferreira', 'Uma das ETECs de Santos');
+INSERT INTO `tb_etec`(`cd_etec`, `nm_etec`, `ds_etec`) VALUES (null, 'ETEC de Cubatão', 'ETEC de Cubatão');
+
+INSERT INTO `tb_estado_civil`(`cd_estado_civil`, `nm_estado_civil`) VALUES (null, 'Solteiro(a)');
+INSERT INTO `tb_estado_civil`(`cd_estado_civil`, `nm_estado_civil`) VALUES (null, 'Casado(a)');
+INSERT INTO `tb_estado_civil`(`cd_estado_civil`, `nm_estado_civil`) VALUES (null, 'Prefiro não dizer');
+
+INSERT INTO `tb_usuario`(`cd_usuario`, `nm_foto_usuario`, `path_foto_usuario`, `nm_usuario`, `nm_completo`, `ds_email`, `ds_senha`, `ds_cnpj`, `nm_github`, `ds_github_url`, `ds_descricao`, `ds_url_usuario`, `id_genero`, `id_etec`, `id_escolaridade`, `id_nivel`, `created_usuario`) VALUES (null, 'user.jpg', 'dados/img/ft_usuarios/user.jpg', 'Administrador', '-', 'adm@gmail.com', 'adm12345678adm', null, null, null, '-', '-', null, null, null, 3, NOW());
