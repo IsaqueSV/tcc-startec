@@ -1,0 +1,364 @@
+body{
+	margin: 0;
+	padding: 0;
+	background:#0D1B2E;
+}
+
+/* Barra de pesquisa (bpesquisa) */
+div#div-sem-comentario{
+	width: 100%;
+	border: 1px solid;
+	border-radius: 8px;
+	border-color: black;
+	padding: 1%;
+}
+
+div#div-form-body{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	border-radius: 8px;
+}
+
+/* Resultado (pesquisa) */
+div.alert#resultado{
+	width: 80%; 
+	margin-top: 4%;
+	margin-bottom: 2%;
+	margin-left: 10%; 
+	margin-right: 10%;
+	background-color: #2a3550;
+	color: white;
+}
+
+/* Criar projeto (form) */
+
+div.projeto{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 2%;
+	border-radius: 4px;
+	background-color: white;
+}
+
+div.vaga{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 2%;
+	border-radius: 4px;
+	background-color: white;
+}
+
+div.curriculo{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 2%;
+	border-radius: 4px;
+	background-color: white;
+}
+
+div#criar-vaga-form{
+	width: 80%;
+	display: flex;
+	margin-top: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	border-radius: 8px;
+	padding: 1% 1.5% 3% 1.5%;
+
+}
+div#criar-projeto-form{
+	width: 80%;
+	margin-top: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	border-radius: 8px;
+	padding: 1% 1% 3% 1%;
+}
+div#criar-projeto-form-2{
+	width: 80%;
+	margin-top: 3%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	border-radius: 8px;
+	padding: 1% 1% 2% 1%;
+}
+
+/* Projetos */
+div#div-projeto{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 1%;
+	color: white;
+	border-radius: 8px;
+	background-color: #2a3550;
+}
+div#div-projeto-conteudo{
+	/* width: 85%;
+	   margin-left: 7.5%;
+	   margin-right: 7.5%; */
+	width: 70%;
+	margin-top: 3%;
+	margin-bottom: 8%;
+	margin-left: 15%;
+	margin-right:10%;
+	border: 1px solid black;
+	border-radius: 8px;
+	background-color: #E5E5E9;
+}
+div#div-curriculo-conteudo{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: white;
+	border: 1px solid;
+	border-radius: 8px;
+}
+div#div-conteudo-titulo{
+	width: 100%;
+	border: 0;
+	border-bottom: 1px solid black;
+	display: flex;
+background: #172f54     } 
+
+button.btn-projeto-denuncia{
+	width: 5%;
+	border-top-left-radius: 8px;
+	border: 0;
+	border-right: 1px solid black;
+	transition: 0.5s ease;
+}
+
+button.btn-projeto-denuncia:hover{
+	background-color: #E5E5E9;
+	transition: 0.5s ease;
+}
+
+button.btn-projeto-url{
+	width: 5%;
+	border-top-left-radius: 8px;
+	border: 0;
+	border-right: 1px solid black;
+	transition: 0.5s ease;
+}
+
+button.btn-projeto-url:hover{
+	background-color: #E5E5E9;
+	transition: 0.5s ease;
+}
+
+label#label-projeto-titulo{
+	width: 90%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	text-align: center;
+	color: white;
+}
+button.btn-projeto-curtida{
+	width: 5%;
+	border-top-right-radius: 8px;
+	border: 0;
+	border-left: 1px solid black;
+	transition: 0.5s ease;
+}
+button.btn-projeto-curtida:hover{
+	background-color: #E5E5E9;
+	transition: 0.5s ease;
+}
+button.pchave-projeto{
+	width: 94%;
+	margin-top: 1.3%;
+	margin-bottom: 3%;
+	margin-left: 3%;
+	margin-right: 3%;
+	border-radius: 8px;
+	padding-top: 0.5%;
+	padding-bottom: 0.5%;
+	text-align: center;
+	background-color: #E5E5E9;
+	border: 1px solid black;
+	transition: 0.5s ease;
+}
+button.pchave-projeto:hover{
+	background-color: #E5E5E9;
+	transition: 0.5s ease;
+}
+button.pchave-curriculo{
+	border-radius: 8px;
+	padding-top: 0.5%;
+	padding-bottom: 0.5%;
+	text-align: center;
+	background-color: #E5E5E9;
+	border: 1px solid black;
+	transition: 0.5s ease;
+}
+button.pchave-curriculo:hover{
+	background-color: #DCDCDC;
+	transition: 0.5s ease;
+}
+div#descricao-projeto{
+	width: 100%;
+	padding: 2% 0 2% 0;
+	text-align: center;
+	border-top: 1px solid black;
+}
+div#descricao-projeto1{
+	width: 100%;
+	padding: 2% 0 2% 0;
+	text-align: center;
+	border-top: 1px solid black;
+}
+label#descricao-projeto-titulo{
+	line-height: 1.6;
+}
+div#descricao-do-projeto{
+	width: 92%;
+	margin-left: 4%;
+	margin-right: 4%;
+}
+div#div-arquivos{
+	width: 100%;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	margin-top: 2%;
+	text-align: center;
+}
+label#titulo-arquivos{
+	margin-top: 1.1%;
+	margin-bottom: 1.1%;
+}
+div#arquivos-conteudo{
+	border-top: 1px solid;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+div#div-comentario{
+	width: 100%;
+	padding: 1% 3% 2% 3%;
+}
+img#foto-comentario{
+	width: 50px;
+	height: 50px;
+	border: 1px solid #E5E5E9;
+}
+textarea#criar-comentario-projeto{
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+button.btn-comentar{
+	width: 100%;
+	margin-top: 1%;
+	border-radius: 8px;
+	padding-top: 0.5%;
+	padding-bottom: 0.5%;
+	text-align: center;
+	background-color: #F0F0F0;
+	border: 1px solid black;
+	transition: 0.5s ease;
+}
+button.btn-comentar:hover{
+	background-color: #DCDCDC;
+	transition: 0.5s ease;
+}
+
+
+/* vaga */
+
+div#titulo{
+	width: 80%;
+	margin-top: 4%;
+	margin-bottom: 2%;
+	margin-left: 10%;
+	margin-right: 10%;
+	display: flex;
+	border-radius: 8px;
+	background-color: #172f54;
+	color: white;
+}
+label#titulo-label{
+	width: 100%;
+	margin-top: 1.4%;
+	margin-bottom: 1.4%;
+	text-align: center;
+}
+button#titulo-btn{
+	width: 5%;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	border: 0;
+	border-left: 1px solid black;
+	transition: 0.5s ease;
+}
+button#titulo-btn:hover{
+	background-color: #DCDCDC;
+	transition: 0.5s ease;
+}
+
+div#div-pesquisa{
+	width: 80%;
+	height: 40px;
+	margin-top: 2%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+select#select-pesquisa{
+	width: 20%;
+	border-color: white;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	background-color: #121a2d; 
+	color: white;
+}
+input#text-pesquisa{
+	width: 75%;
+	border-color: white;
+	background-color: #121a2d; 
+	color: white;
+}
+input#text-pesquisa::placeholder{
+	color: white;
+}
+button#btn-pesquisa{
+	width: 5%;
+	border: 1px solid;
+	border-color: white;
+	border-top-right-radius: 8px; 
+	border-bottom-right-radius: 8px;
+	background-color: #F0F0F0;
+	transition: 0.5s ease;
+}
+button#btn-pesquisa:hover{
+	background-color: #DCDCDC;
+	transition: 0.5s ease;
+}
+
+textarea{
+	resize: none;
+}
+
+div#esquerda-curriculo{
+	width: 19%;
+}
+div#direita-curriculo{
+	width: 79%;
+	margin-left: 2%;
+}
+
+/* Conteúdo (conteúdo) */
+div.alert#conteudo{
+	width: 96%;
+	padding: 0;
+	margin-left: 2%;
+	margin-right: 2%;
+	border: 1px solid;
+}
